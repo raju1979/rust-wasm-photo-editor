@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Mini Photo Editor (Rust WASM)</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            background: #f3f4f6;
+            overflow: hidden;
+        }
+
+        .editor-wrapper {
+            height: 100vh;
+        }
+
+        .editor-card {
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            background: #ffffff;
+        }
+
+        .control-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+
+        /* Right preview area */
+        .canvas-container {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #111827;
+            /* dark preview background */
+            border-radius: 14px;
+        }
+
+        canvas {
+            max-height: 100%;
+            max-width: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #ffffff;
+        }
+
+        .btn-group-sm .btn {
+            min-width: 90px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row g-3">
+
+            <!-- LEFT PANEL (Controls) -->
+            <div class="col-md-4 col-lg-3 editor-wrapper overflow-auto p-3">
+                <div class="editor-card p-3">
+
+                    <h5 class="mb-3">
+                        🖼 Mini Photo Editor
+                        <span class="badge bg-dark ms-2">Rust WASM</span>
+                    </h5>
+
+                    <!-- Upload -->
+                    <div class="mb-3">
+                        <label class="control-label">Upload Image</label>
+                        <input type="file" id="upload" class="form-control">
+                    </div>
+
+                    <!-- Brightness -->
+                    <div class="mb-3">
+                        <label class="control-label">Brightness</label>
+                        <input type="range" id="brightness" class="form-range" min="-100" max="100" value="0">
+                    </div>
+
+                    <!-- Contrast -->
+                    <div class="mb-3">
+                        <label class="control-label">Contrast</label>
+                        <input type="range" id="contrast" class="form-range" min="-100" max="100" value="0">
+                    </div>
+
+                    <!-- Presets -->
+                    <div class="mb-3">
+                        <label class="control-label mb-2">Presets</label>
+                        <div class="btn-group btn-group-sm w-100">
+                            <button id="vintage" class="btn btn-outline-secondary">Vintage</button>
+                            <button id="vivid" class="btn btn-outline-secondary">Vivid</button>
+                            <button id="noir" class="btn btn-outline-secondary">Noir</button>
+                        </div>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="mb-3">
+                        <label class="control-label mb-2">Filters</label>
+                        <div class="btn-group btn-group-sm w-100">
+                            <button id="blur" class="btn btn-outline-primary">
+                                <i class="bi bi-droplet"></i> Blur
+                            </button>
+                            <button id="sharpen" class="btn btn-outline-primary">
+                                <i class="bi bi-lightning"></i> Sharpen
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Transform -->
+                    <div class="mb-3">
+                        <label class="control-label mb-2">Transform</label>
+                        <div class="btn-group btn-group-sm w-100">
+                            <button id="rotate" class="btn btn-outline-dark">
+                                <i class="bi bi-arrow-clockwise"></i> Rotate
+                            </button>
+                            <button id="resize" class="btn btn-outline-dark">
+                                <i class="bi bi-arrows-angle-contract"></i> Resize
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- History -->
+                    <div class="mb-3">
+                        <label class="control-label mb-2">History</label>
+                        <div class="btn-group btn-group-sm w-100">
+                            <button id="undo" class="btn btn-outline-warning">
+                                <i class="bi bi-arrow-counterclockwise"></i> Undo
+                            </button>
+                            <button id="redo" class="btn btn-outline-warning">
+                                <i class="bi bi-arrow-clockwise"></i> Redo
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="d-grid gap-2">
+                        <button id="reset" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Reset
+                        </button>
+                        <button id="download" class="btn btn-success">
+                            <i class="bi bi-download"></i> Download
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- RIGHT PANEL (Canvas – 100% Height) -->
+            <div class="col-md-8 col-lg-9 editor-wrapper p-3">
+                <div class="editor-card h-100 canvas-container">
+                    <canvas id="canvas"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Main JS (unchanged) -->
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>
